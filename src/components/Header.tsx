@@ -11,6 +11,7 @@ export default function Header() {
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Products', path: '/products' },
+    { name: 'Classes', path: '/#courses', hash: 'courses' },
     { name: 'About Us', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -38,24 +39,39 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`relative font-medium transition-colors duration-300 ${
-                  isActiveLink(item.path)
-                    ? 'text-pink-600'
-                    : 'text-gray-700 hover:text-pink-600'
-                }`}
-              >
-                {item.name}
-                <span
-                  className={`absolute bottom-0 left-0 h-0.5 bg-pink-600 transition-all duration-300 ${
-                    isActiveLink(item.path) ? 'w-full' : 'w-0'
+            {navItems.map((item) => {
+              const isHash = 'hash' in item;
+              const handleClick = (e: React.MouseEvent) => {
+                if (isHash) {
+                  e.preventDefault();
+                  if (location.pathname !== '/') {
+                    window.location.href = '/#courses';
+                  } else {
+                    document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }
+              };
+
+              return (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  onClick={handleClick}
+                  className={`relative font-medium transition-colors duration-300 ${
+                    isActiveLink(item.path) || (isHash && location.pathname === '/' && location.hash === '#courses')
+                      ? 'text-pink-600 font-bold'
+                      : 'text-gray-700 hover:text-pink-600'
                   }`}
-                ></span>
-              </Link>
-            ))}
+                >
+                  {item.name}
+                  <span
+                    className={`absolute bottom-0 left-0 h-0.5 bg-pink-600 transition-all duration-300 ${
+                      isActiveLink(item.path) || (isHash && location.pathname === '/' && location.hash === '#courses') ? 'w-full' : 'w-0'
+                    }`}
+                  ></span>
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Phone & Order Button */}
@@ -92,20 +108,37 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden pb-6">
             <nav className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`font-medium transition-colors ${
-                    isActiveLink(item.path)
-                      ? 'text-pink-600'
-                      : 'text-gray-700 hover:text-pink-600'
-                  } px-4 py-2 rounded-lg`}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                const isHash = 'hash' in item;
+                const handleClick = (e: React.MouseEvent) => {
+                  setIsMenuOpen(false);
+                  if (isHash) {
+                    e.preventDefault();
+                    if (location.pathname !== '/') {
+                      window.location.href = '/#courses';
+                    } else {
+                      setTimeout(() => {
+                        document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    }
+                  }
+                };
+
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    onClick={handleClick}
+                    className={`font-medium transition-colors ${
+                      isActiveLink(item.path) || (isHash && location.pathname === '/' && location.hash === '#courses')
+                        ? 'text-pink-600 font-bold'
+                        : 'text-gray-700 hover:text-pink-600'
+                    } px-4 py-2 rounded-lg`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
               <a
                 href="tel:8248477869"
                 className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:text-pink-600"

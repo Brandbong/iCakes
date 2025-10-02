@@ -64,12 +64,12 @@ const Hero: React.FC = () => {
                 <span>Order Now</span>
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </a>
-              <Link
-                to="/products"
+              <button
+                onClick={() => document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' })}
                 className="border-2 border-pink-500 text-pink-600 px-8 py-4 rounded-full hover:bg-pink-500 hover:text-white transition-all duration-300 font-semibold text-lg text-center"
               >
-                View Gallery
-              </Link>
+                Discover Our Classes
+              </button>
             </div>
           </div>
 

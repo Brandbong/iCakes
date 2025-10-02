@@ -75,16 +75,50 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-pink-400">Quick Links</h3>
             <ul className="space-y-2">
-              {['Home', 'Products', 'About Us', 'Contact', 'Custom Orders', 'Bulk Orders'].map((link) => (
-                <li key={link}>
-                  <a
-                    href="#"
-                    className="text-gray-300 hover:text-pink-400 transition-colors text-sm"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="/" className="text-gray-300 hover:text-pink-400 transition-colors text-sm">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="/products" className="text-gray-300 hover:text-pink-400 transition-colors text-sm">
+                  Products
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/#courses"
+                  onClick={(e) => {
+                    if (window.location.pathname === '/') {
+                      e.preventDefault();
+                      document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="text-gray-300 hover:text-pink-400 transition-colors text-sm"
+                >
+                  Baking Classes
+                </a>
+              </li>
+              <li>
+                <a href="/about" className="text-gray-300 hover:text-pink-400 transition-colors text-sm">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="/contact" className="text-gray-300 hover:text-pink-400 transition-colors text-sm">
+                  Contact
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-pink-400 transition-colors text-sm">
+                  Custom Orders
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-pink-400 transition-colors text-sm">
+                  Bulk Orders
+                </a>
+              </li>
             </ul>
           </div>
 
