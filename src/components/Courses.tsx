@@ -1,7 +1,10 @@
 import React from 'react';
-import { Clock, Calendar, Award, CheckCircle, Star, ChefHat, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Clock, Calendar, Award, CheckCircle, Star, ChefHat, Sparkles, ArrowRight, Users } from 'lucide-react';
 
 const Courses: React.FC = () => {
+  const navigate = useNavigate();
+
   const courses = [
     {
       id: 'basic',
@@ -102,9 +105,9 @@ const Courses: React.FC = () => {
     }
   ];
 
-  const handleJoinClass = (courseName: string) => {
-    const whatsappMessage = `Hi%20Ayath_iCakes!%20%F0%9F%91%8B%0A%0AI'm%20interested%20in%20joining%20the%20*${encodeURIComponent(courseName)}*%0A%0APlease%20share%20details%20about%3A%0A%E2%80%A2%20Course%20fees%20%26%20payment%20plans%0A%E2%80%A2%20Next%20available%20batch%20dates%0A%E2%80%A2%20Prerequisites%20(if%20any)%0A%E2%80%A2%20What's%20included%20in%20the%20course%0A%E2%80%A2%20Certification%20details%0A%0AThank%20you!`;
-    window.open(`https://wa.me/918248477869?text=${whatsappMessage}`, '_blank');
+  const handleLearnMore = (courseId: string) => {
+    navigate(`/course/${courseId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -187,50 +190,61 @@ const Courses: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-6 space-y-6">
-                <p className="text-gray-600 text-sm leading-relaxed">
+              <div className="p-6 space-y-5">
+                <p className="text-gray-600 text-sm leading-relaxed min-h-[60px]">
                   {course.description}
                 </p>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div className={`bg-gradient-to-br ${course.color.secondary} p-3 rounded-xl`}>
-                    <div className="flex items-center space-x-2 mb-1">
-                      <Calendar className={`h-4 w-4 ${course.color.text}`} />
-                      <span className="text-xs text-gray-600 font-medium">Duration</span>
-                    </div>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className={`bg-gradient-to-br ${course.color.secondary} p-3 rounded-xl text-center`}>
+                    <Calendar className={`h-5 w-5 ${course.color.text} mx-auto mb-1`} />
+                    <p className="text-xs text-gray-600 font-medium mb-0.5">Duration</p>
                     <p className="text-sm font-bold text-gray-900">{course.duration}</p>
                   </div>
 
-                  <div className={`bg-gradient-to-br ${course.color.secondary} p-3 rounded-xl`}>
-                    <div className="flex items-center space-x-2 mb-1">
-                      <Clock className={`h-4 w-4 ${course.color.text}`} />
-                      <span className="text-xs text-gray-600 font-medium">Timing</span>
-                    </div>
-                    <p className="text-sm font-bold text-gray-900">{course.schedule.split(' - ')[0]}</p>
+                  <div className={`bg-gradient-to-br ${course.color.secondary} p-3 rounded-xl text-center`}>
+                    <Clock className={`h-5 w-5 ${course.color.text} mx-auto mb-1`} />
+                    <p className="text-xs text-gray-600 font-medium mb-0.5">Daily</p>
+                    <p className="text-sm font-bold text-gray-900">3.5 hrs</p>
+                  </div>
+
+                  <div className={`bg-gradient-to-br ${course.color.secondary} p-3 rounded-xl text-center`}>
+                    <Users className={`h-5 w-5 ${course.color.text} mx-auto mb-1`} />
+                    <p className="text-xs text-gray-600 font-medium mb-0.5">Batch</p>
+                    <p className="text-sm font-bold text-gray-900">6-8</p>
                   </div>
                 </div>
 
-                <div>
-                  <h4 className="text-sm font-bold text-gray-900 mb-3 flex items-center space-x-2">
-                    <CheckCircle className="h-4 w-4 text-green-500" />
-                    <span>Course Curriculum:</span>
-                  </h4>
-                  <ul className="space-y-2 mb-4">
-                    {course.highlights.map((highlight, index) => (
-                      <li key={index} className="flex items-start space-x-2 text-sm">
-                        <div className="mt-0.5">
-                          <div className="h-1.5 w-1.5 rounded-full bg-pink-500"></div>
-                        </div>
+                <div className="border-t border-gray-100 pt-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-bold text-gray-900 flex items-center space-x-2">
+                      <ChefHat className={`h-4 w-4 ${course.color.text}`} />
+                      <span>Key Highlights</span>
+                    </h4>
+                    <span className="text-xs text-gray-500">{course.highlights.length} modules</span>
+                  </div>
+                  <div className="space-y-2 max-h-40 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-pink-300 scrollbar-track-gray-100">
+                    {course.highlights.slice(0, 5).map((highlight, index) => (
+                      <div key={index} className="flex items-start space-x-2 text-sm">
+                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
                         <span className="text-gray-700">{highlight}</span>
-                      </li>
+                      </div>
                     ))}
-                  </ul>
+                    {course.highlights.length > 5 && (
+                      <p className="text-xs text-gray-500 italic pl-6">+{course.highlights.length - 5} more topics...</p>
+                    )}
+                  </div>
+                </div>
 
-                  <div className={`bg-gradient-to-br ${course.color.secondary} p-3 rounded-xl`}>
-                    <p className="text-xs font-semibold text-gray-700 mb-2">What You Get:</p>
+                <div className={`bg-gradient-to-br ${course.color.secondary} p-4 rounded-xl border border-gray-200`}>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Star className={`h-4 w-4 ${course.color.text}`} />
+                    <p className="text-xs font-bold text-gray-800">Course Benefits</p>
+                  </div>
+                  <div className="space-y-1.5">
                     {course.benefits.map((benefit, index) => (
-                      <div key={index} className="flex items-center space-x-2 text-xs text-gray-600 mb-1">
-                        <CheckCircle className="h-3 w-3 text-green-500 flex-shrink-0" />
+                      <div key={index} className="flex items-center space-x-2 text-xs text-gray-700">
+                        <div className={`h-1.5 w-1.5 rounded-full ${course.color.badge}`}></div>
                         <span>{benefit}</span>
                       </div>
                     ))}
@@ -238,11 +252,11 @@ const Courses: React.FC = () => {
                 </div>
 
                 <button
-                  onClick={() => handleJoinClass(course.title)}
+                  onClick={() => handleLearnMore(course.id)}
                   className={`w-full bg-gradient-to-r ${course.color.primary} ${course.color.hover} text-white px-6 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 group`}
                 >
-                  <span>Join Class</span>
-                  <ChefHat className="h-5 w-5 group-hover:rotate-12 transition-transform" />
+                  <span>Learn More</span>
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <p className="text-center text-xs text-gray-500">

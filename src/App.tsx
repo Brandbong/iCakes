@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Products from './pages/Products';
+import CourseDetail from './pages/CourseDetail';
 import About from './components/About';
 import Contact from './components/Contact';
 import WhatsAppWidget from './components/WhatsAppWidget';
@@ -56,6 +57,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/products" element={<Products />} />
+              <Route path="/course/:courseId" element={<CourseDetail />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
             </Routes>
